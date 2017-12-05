@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>
+                    %d|%p|demo|%m%n
+                </pattern>
+            </PatternLayout>
+            <ThresholdFilter level="ERROR" onMatch="DENY"  onMismatch="ACCEPT"/>
+        </Console>
+        <Console name="STDERR" target="SYSTEM_ERR">
+            <PatternLayout>
+                <pattern>
+                    %d|%p|demo|%m%n
+                </pattern>
+            </PatternLayout>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!-- <Logger name="org.springframework.web" level="debug" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+        </Logger> -->
+        <!--  <Logger name="org.springframework.data.redis.core" level="error" additivity="false">
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.springframework.amqp.rabbit.core" level="error" additivity="false">
+            <AppenderRef ref="Console-Appender"/>
+        </Logger> -->
+        <!--  -->
+        <!-- <Logger  name="com.skb.demo" level="debug" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <Logger name="com.skb.demo" level="error" additivity="false">
+            <AppenderRef ref="STDERR"/>
+        </Logger> -->
+        <Root>
+	      <AppenderRef ref="STDERR"/>
+	      <AppenderRef ref="STDOUT" level="DEBUG"/>
+	    </Root>
+        <!-- <Root>
+            <AppenderRef ref="Console-Appender"/>
+            <AppenderRef ref="Console-Appender2"/>
+        </Root> -->
+    </Loggers>
+</Configuration>

@@ -1,0 +1,17 @@
+---
+applications:
+- name: demo-test
+  memory: 8192M
+  instances: 1
+  host: demo-dev-test
+  path: ./defaultServer/apps/demo-0.0.1-SNAPSHOT.war
+  buildpack: java_buildpack
+  services:
+  - dev-common-common-redis
+  - dev-common-common-rabbitmq
+  - dev-common-common-swift
+  env:
+    SPRING_PROFILES_ACTIVE: dev
+    JAVA_OPTS: -Djava.security.egd=file:/dev/./urandom
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+    JVM_ARGS : -Xdump:tool:events=vmstop,exec="sleep 1d" -Xdump:heap+java:events=vmstop

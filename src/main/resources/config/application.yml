@@ -1,0 +1,270 @@
+server:
+  port: ${PORT:9000}
+
+service:
+  name: DEMO   #exception에 명시할 서비스명 입니다.
+  
+# Log Level 설정
+logging: 
+  level:
+    com:
+      skb:
+        demo: DEBUG
+
+# Local 구성 환경
+spring:
+  application: 
+    name: demo 
+    index: "${vcap.application.instance_index:0}"
+#  rabbitmq: 
+#    addresses: 169.56.79.187:5672
+#    username: rmqadmin
+#    password: dahR5lioxeiC9oon
+#  redis: 
+#    host: 169.56.79.184
+#    port: 6379
+#    password: Kei1Ohg2leiNg6qu
+  cloud: 
+    bus: 
+      trace: 
+        enabled: true
+    
+management:
+  security:
+    enabled: false
+
+
+vcap:
+  application:
+    name: "${vcap.application.application_name:demo}"
+    instance:
+      index: "${vcap.application.instance_index:0}"
+    application:
+      id: "${vcap.application.application_id:local}"
+      
+---
+spring:
+  profiles: default
+eureka:
+  client:
+    serviceUrl:
+#      defaultZone: "https://common-eureka-server.sk.kr.mybluemix.net/eureka"
+      defaultZone: "https://common-eureka-server-stg.skb-suy-dev01.mybluemix.net/eureka"
+    enabled: true    
+    registryFetchIntervalSeconds: 5
+#    registerWithEureka: false
+#    fetchRegistry: false
+  instance:
+    preferIpAddress: true       
+    hostname: ${vcap.application.uris[0]:localhost}
+    ip-address: "${CF_INSTANCE_IP:127.0.0.1}"
+    nonSecurePort: ${CF_INSTANCE_PORT:9000}
+    metadataMap: 
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 3
+    lease-renewal-interval-in-seconds: 3
+    
+vcap:
+  service:
+    rabbitmq:
+      addresses: "${vcap.services.demo-rabbitmq-cluster.credentials.addresses:localhost:5672}"
+      username: "${vcap.services.demo-rabbitmq-cluster.credentials.username:rabbitmq}"
+      password: "${vcap.services.demo-rabbitmq-cluster.credentials.password:password}"
+    redis:
+      nodes: "${vcap.services.demo-redis-cluster.credentials.nodes:localhost}"
+      password: "${vcap.services.demo-redis-cluster.credentials.password:password}"
+    swift:
+      username: "${vcap.services.demo-swift.credentials.username:bffadmin}"
+      password: "${vcap.services.demo-swift.credentials.password:Yahtoov5Ahthiesa}"
+      authurl: "${vcap.services.demo-swift.credentials.authurl:http://169.56.79.181:5000/v3}"
+      project: "${vcap.services.demo-swift.credentials.project:bff}"
+      domain: "${vcap.services.demo-swift.credentials.domain:default}"
+      region: "${vcap.services.demo-swift.credentials.region:pgy}"
+
+---
+spring:
+  profiles: pgy
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "https://common-eureka-server.sk.kr.mybluemix.net/eureka"
+    enabled: true    
+    registryFetchIntervalSeconds: 5
+  instance:
+    preferIpAddress: true       
+    hostname: ${vcap.application.uris[0]:localhost}
+    ip-address: "${CF_INSTANCE_IP:127.0.0.1}"
+    nonSecurePort: ${CF_INSTANCE_PORT:9000}
+    metadataMap: 
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 3
+    lease-renewal-interval-in-seconds: 3
+    
+vcap:
+  service:
+    rabbitmq:
+      addresses: "${vcap.services.demo-rabbitmq-cluster.credentials.addresses:169.56.79.187:5672}"
+      username: "${vcap.services.demo-rabbitmq-cluster.credentials.username:rmqadmin}"
+      password: "${vcap.services.demo-rabbitmq-cluster.credentials.password:dahR5lioxeiC9oon}"
+    redis:
+      nodes: "${vcap.services.demo-redis-cluster.credentials.nodes:169.56.79.184}"
+      password: "${vcap.services.demo-redis-cluster.credentials.password:Kei1Ohg2leiNg6qu}"
+    swift:
+      username: "${vcap.services.demo-swift.credentials.username:bffadmin}"
+      password: "${vcap.services.demo-swift.credentials.password:Yahtoov5Ahthiesa}"
+      authurl: "${vcap.services.demo-swift.credentials.authurl:http://169.56.79.181:5000/v3}"
+      project: "${vcap.services.demo-swift.credentials.project:bff}"
+      domain: "${vcap.services.demo-swift.credentials.domain:default}"
+      region: "${vcap.services.demo-swift.credentials.region:pgy}"
+
+---
+spring:
+  profiles: dev
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "https://common-eureka-server-dev.skb-suy-dev01.mybluemix.net/eureka"
+    enabled: true    
+    registryFetchIntervalSeconds: 5
+#    registerWithEureka: false
+#    fetchRegistry: false
+  instance:
+    preferIpAddress: true       
+    hostname: ${vcap.application.uris[0]:localhost}
+    ip-address: "${CF_INSTANCE_IP:127.0.0.1}"
+    nonSecurePort: ${CF_INSTANCE_PORT:9000}
+    metadataMap: 
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 3
+    lease-renewal-interval-in-seconds: 3
+    
+vcap:
+  service:
+    rabbitmq:
+      addresses: "${vcap.services.dev-common-common-rabbitmq.credentials.addresses}"
+      username: "${vcap.services.dev-common-common-rabbitmq.credentials.username}"
+      password: "${vcap.services.dev-common-common-rabbitmq.credentials.password}"
+    redis:
+      nodes: "${vcap.services.dev-common-common-redis.credentials.nodes}"
+      password: "${vcap.services.dev-common-common-redis.credentials.password}"
+    swift:
+      username: "${vcap.services.dev-common-common-swift.credentials.username}"
+      password: "${vcap.services.dev-common-common-swift.credentials.password}"
+      authurl: "${vcap.services.dev-common-common-swift.credentials.authurl}"
+      project: "${vcap.services.dev-common-common-swift.credentials.project}"
+      domain: "${vcap.services.dev-common-common-swift.credentials.domain}"
+      region: "${vcap.services.dev-common-common-swift.credentials.region}"
+
+---
+spring:
+  profiles: stg
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "https://common-eureka-server-stg.skb-suy-dev01.mybluemix.net/eureka"
+    enabled: true    
+    registryFetchIntervalSeconds: 5
+  instance:
+    preferIpAddress: true       
+    hostname: ${vcap.application.uris[0]}
+    ip-address: "${CF_INSTANCE_IP}"
+    nonSecurePort: ${CF_INSTANCE_PORT}
+    metadataMap: 
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 3
+    lease-renewal-interval-in-seconds: 3
+    
+vcap:
+  service:
+    rabbitmq:
+      addresses: "${vcap.services.stg-common-common-rabbitmq.credentials.addresses}"
+      username: "${vcap.services.stg-common-common-rabbitmq.credentials.username}"
+      password: "${vcap.services.stg-common-common-rabbitmq.credentials.password}"
+    redis:
+      nodes: "${vcap.services.stg-common-common-redis.credentials.nodes}"
+      password: "${vcap.services.stg-common-common-redis.credentials.password}"
+    swift:
+      username: "${vcap.services.stg-common-common-swift.credentials.username}"
+      password: "${vcap.services.stg-common-common-swift.credentials.password}"
+      authurl: "${vcap.services.stg-common-common-swift.credentials.authurl}"
+      project: "${vcap.services.stg-common-common-swift.credentials.project}"
+      domain: "${vcap.services.stg-common-common-swift.credentials.domain}"
+      region: "${vcap.services.stg-common-common-swift.credentials.region}"
+
+---
+spring:
+  profiles: suy
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "https://common-eureka-server.skb-suy-prd01.mybluemix.net/eureka"
+    enabled: true    
+    registryFetchIntervalSeconds: 5
+  instance:
+    preferIpAddress: true       
+    hostname: ${vcap.application.uris[0]}
+    ip-address: "${CF_INSTANCE_IP}"
+    nonSecurePort: ${CF_INSTANCE_PORT}
+    metadataMap: 
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 3
+    lease-renewal-interval-in-seconds: 3
+    
+vcap:
+  service:
+    rabbitmq:
+      addresses: "10.10.13.2:5672,10.10.13.3:5672,10.10.13.4:5672,10.11.13.2:5672,10.11.13.3:5672,10.11.13.4:5672"
+      username: "rmqadmin"
+      password: "puaw2cu9Ch"
+    redis:
+      nodes: "10.10.13.10:6379,10.10.13.11:6379,10.10.13.12:6379,10.10.13.13:6379,10.10.13.14:6379,10.10.13.15:6379,10.11.13.10:6379,10.11.13.11:6379,10.11.13.12:6379,10.11.13.13:6379,10.11.13.14:6379,10.11.13.15:6379"
+      password: "vai2Ree1hiy0aifeeGhuoxaethoujuw3"
+    swift:
+      username: "${vcap.services.prd-common-common-swift.credentials.username}"
+      password: "${vcap.services.prd-common-common-swift.credentials.password}"
+      authurl: "${vcap.services.prd-common-common-swift.credentials.authurl}"
+      project: "${vcap.services.prd-common-common-swift.credentials.project}"
+      domain: "${vcap.services.prd-common-common-swift.credentials.domain}"
+      region: "${vcap.services.prd-common-common-swift.credentials.region}"
+
+---
+spring:
+  profiles: ssu
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "https://common-eureka-server.skb-ssu-prd02.mybluemix.net/eureka"
+    enabled: true    
+    registryFetchIntervalSeconds: 5
+  instance:
+    preferIpAddress: true       
+    hostname: ${vcap.application.uris[0]}
+    ip-address: "${CF_INSTANCE_IP}"
+    nonSecurePort: ${CF_INSTANCE_PORT}
+    metadataMap: 
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+    leaseRenewalIntervalInSeconds: 1
+    lease-expiration-duration-in-seconds: 3
+    lease-renewal-interval-in-seconds: 3
+    
+vcap:
+  service:
+    rabbitmq:
+      addresses: "10.10.13.2:5672,10.10.13.3:5672,10.10.13.4:5672,10.11.13.2:5672,10.11.13.3:5672,10.11.13.4:5672"
+      username: "rmqadmin"
+      password: "puaw2cu9Ch"
+    redis:
+      nodes: "10.10.123.8:6379,10.10.123.9:6379,10.10.123.10:6379,10.10.123.11:6379,10.10.123.12:6379,10.10.123.13:6379"
+      password: "xaetahgeki4lieB7Ouz9ieju4bahyeiC"
+    swift:
+      username: "${vcap.services.prd-common-common-swift.credentials.username}"
+      password: "${vcap.services.prd-common-common-swift.credentials.password}"
+      authurl: "${vcap.services.prd-common-common-swift.credentials.authurl}"
+      project: "${vcap.services.prd-common-common-swift.credentials.project}"
+      domain: "${vcap.services.prd-common-common-swift.credentials.domain}"
+      region: "${vcap.services.prd-common-common-swift.credentials.region}"

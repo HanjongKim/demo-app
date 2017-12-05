@@ -1,0 +1,14 @@
+---
+applications:
+- name: demo
+  memory: 1024M
+  instances: 1
+  host: demo
+  path: ./defaultServer
+  buildpack: liberty-for-java
+  services:
+  - prd-common-common-swift
+  env: 
+    SPRING_PROFILES_ACTIVE: prd,ssu
+    JAVA_OPTS: -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=104857K -Xss1M -Xmx768M -Xms768M -XX:MetaspaceSize=104857K
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'

@@ -1,0 +1,37 @@
+spring: 
+  cloud: 
+    config: 
+      uri: https://common-config-server.sk.kr.mybluemix.net
+      enabled: true
+      
+---
+spring: 
+  profiles: dev
+  cloud: 
+    config: 
+      uri: https://common-config-server-dev.skb-suy-dev01.mybluemix.net/
+      enabled: true  
+  
+---
+spring: 
+  profiles: stg
+  cloud: 
+    config: 
+      uri: https://common-config-server-stg.skb-suy-dev01.mybluemix.net/
+      enabled: true
+        
+---
+spring: 
+  profiles: suy
+  cloud: 
+    config: 
+      uri: https://common-config-server.skb-suy-prd01.mybluemix.net/
+      enabled: false
+      
+---
+spring: 
+  profiles: ssu
+  cloud: 
+    config: 
+      uri: https://common-config-server.skb-ssu-prd02.mybluemix.net/
+      enabled: true

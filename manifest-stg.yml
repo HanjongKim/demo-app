@@ -1,0 +1,18 @@
+---
+applications:
+- name: demo
+  memory: 1024M
+  instances: 1
+  host: demo-stg
+  path: ./defaultServer
+#  path: ./defaultServer/apps/demo-0.0.1-SNAPSHOT.war
+  buildpack: liberty-for-java
+#  buildpack: java_buildpack
+  services:
+  - stg-common-common-redis
+  - stg-common-common-rabbitmq
+  - stg-common-common-swift
+  env:
+    SPRING_PROFILES_ACTIVE: stg
+    JAVA_OPTS: -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=104857K -Xss1M -Xmx768M -Xms768M -XX:MetaspaceSize=104857K
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
